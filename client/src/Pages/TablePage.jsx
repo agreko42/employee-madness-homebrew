@@ -43,7 +43,7 @@ export default function TablePage( {target} ) {
                                                   columnOne = {"Name"}
                                                   columnTwo = {"Position"}
                                                   columnThree = {"Level"}
-                                                  columnFour = {"Absence"}/>
+                                                  columnFour = {"Missing"}/>
           : target === "equipment" ? <TableHeader target = {target}
                                                   columnOne = {"Name"}
                                                   columnTwo = {"Amount"}
