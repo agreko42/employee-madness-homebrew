@@ -29,6 +29,8 @@ app.get(`${employeeAPI}/:name`, async (req, res) => {
     const name = `${req.params.name}`
     const nameRegex = new RegExp(name, "i")
 
+    console.log(req.params)
+
     const filteredEmployees = await EmployeeModel.find( {name: nameRegex} )
 
     res.set("Access-Control-Allow-Origin", ["*"])

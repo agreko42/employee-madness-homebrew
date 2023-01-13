@@ -7,10 +7,26 @@ const serverURL = "http://localhost:8080/api"
 
 export default function TableHeader(props) {
 
-  const [searchedName, setSearchedName] = useState("")
+  const [col1Search, setCol1Search] = useState("")
+  const [col2Search, setCol2Search] = useState("")
 
-  function searchByName(e) {
-    setSearchedName(e)
+  function searchByCol1(e) {
+    setCol1Search(e)
+
+    
+
+    console.log(`${serverURL}/${props.target}/${e} `)
+
+    fetch(`${serverURL}/${props.target}/${e}`)
+    .then(res => res.json())
+    .then(data => {
+      props.setTableData(data)
+    })
+  }
+
+  function searchByCol2(e) {
+    setCol2Search(e)
+    console.log(col2Search)
 
     fetch(`${serverURL}/${props.target}/${e}`)
     .then(res => res.json())
@@ -32,14 +48,16 @@ export default function TableHeader(props) {
       <th>
         <input type="text" 
                placeholder ={`Search for ${props.target}`}
-               onChange ={(e) => searchByName(e.target.value)}
-               value = {searchedName}
+               onChange ={(e) => searchByCol1(e.target.value)}
+               value = {col1Search}
                
         />
       </th>
       <th>
         <input type="text" 
                placeholder ={`Search for ${props.columnTwo}`}
+               onChange = { (e) => searchByCol2(e.target.value)}
+               value = {col2Search}
         />
       </th>
       <th>
