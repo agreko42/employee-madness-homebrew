@@ -39,6 +39,7 @@ export default function TablePage( {target} ) {
         <thead>
           { target === "employees" ? <TableHeader target = {target}
                                                   setIsLoading = {setIsLoading}
+                                                  tableData = {tableData}
                                                   setTableData = {setTableData}
                                                   columnOne = {"Name"}
                                                   columnTwo = {"Position"}

@@ -7,6 +7,8 @@ export default function TableCard(props) {
       <td>{props.columnTwo}</td>
       <td>{props.columnThree}</td>
       <td>{`${props.columnFour}`}</td>
+      <button>Update</button>
+      <button>Delete</button>
     </tr>
   )
 }

@@ -10,7 +10,7 @@ const employeeAPI = "/api/employees"
 
 
 app.get(employeeAPI, async (req, res) => {
- console.log("first endpoint")
+ console.log("Server: employee landing triggered")
     const allEmployees = await EmployeeModel.find()
 
     res.set("Access-Control-Allow-Origin", ["*"])
@@ -19,10 +19,8 @@ app.get(employeeAPI, async (req, res) => {
 })
 
 app.get(`${employeeAPI}/search`, async (req, res) => {
-    console.log("nameQuery:"+req.query.name)
-    console.log("posQuery:"+req.query.position)
-    console.log("lvlQuery"+req.query.level)
-       
+console.log("Server: employee search triggered")
+console.log(req.query)
     const nameQuery = req.query.name
     const nameRegex = new RegExp(nameQuery, "i")
 
@@ -33,6 +31,19 @@ app.get(`${employeeAPI}/search`, async (req, res) => {
     const lvlRegex = new RegExp(levelQuery, "i")
 
 
+    function constructSortObject() {
+        let sortSplit = ""
+        if(req.query.sort){
+            sortSplit = req.query.sort.split(",")
+        }
+        const sortKey = sortSplit[0]
+        let  sortQuery = {};
+        sortQuery[sortKey] = sortSplit[1]
+        console.log(sortQuery)
+        return sortQuery
+    }
+
+
     function constructFilterObject(){
     const filterObject = {};
 
@@ -40,11 +51,11 @@ app.get(`${employeeAPI}/search`, async (req, res) => {
     posQuery !== undefined ? filterObject.position = posRegex : ""
     levelQuery !== undefined ? filterObject.level = lvlRegex : ""
 
-    console.log(filterObject)
     return filterObject
     }
 
-    const filteredEmployees = await EmployeeModel.find(constructFilterObject())
+    
+    const filteredEmployees = await EmployeeModel.find(constructFilterObject()).sort(constructSortObject())
 
     res.set("Access-Control-Allow-Origin", ["*"])
     res.send(filteredEmployees)
