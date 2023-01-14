@@ -18,12 +18,9 @@ app.get(employeeAPI, async (req, res) => {
     res.send(allEmployees)
 })
 
-app.get(`${employeeAPI}/search`, async (req, res) => {
-    console.log("nameQuery:"+req.query.name)
-    console.log("posQuery:"+req.query.position)
-    console.log("lvlQuery"+req.query.level)
+app.get(`${employeeAPI}/searchname/:name`, async (req, res) => {
        
-    const nameQuery = req.query.name
+    const nameQuery = req.params.name
     const nameRegex = new RegExp(nameQuery, "i")
 
     const posQuery = req.query.position
@@ -44,7 +41,7 @@ app.get(`${employeeAPI}/search`, async (req, res) => {
     return filterObject
     }
 
-    const filteredEmployees = await EmployeeModel.find(constructFilterObject())
+    const filteredEmployees = await EmployeeModel.find( {name: nameRegex})
 
     res.set("Access-Control-Allow-Origin", ["*"])
     res.send(filteredEmployees)

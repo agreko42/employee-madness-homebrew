@@ -12,53 +12,18 @@ export default function TableHeader(props) {
   const [col3Search, setCol3Search] = useState("")
   const [col4Search, setCol4Search] = useState("")
 
-  function constructQueryString(){
+  function col1SearchHandler(e) {
+    console.log(e.target.value)
 
-    let queryString = "";
+    setCol1Search(e.target.value)
 
-    if(col1Search !== "" || col2Search !== "" || col3Search !== ""){
-      queryString = "?"
-    }
-    if(col1Search !== ""){
-      queryString += `${props.columnOne.toLowerCase()}=${col1Search}`
-    }
-    if(col1Search !== "" && col2Search !== "") {
-      queryString += "&"
-    }
-    if(col2Search !== ""){
-      queryString += `${props.columnTwo.toLowerCase()}=${col2Search}`
-    }
-    if(col2Search !== "" && col3Search !== "" || col1Search !== "" && col3Search !== ""){
-      queryString += "&"
-    }
-    if(col3Search !== ""){
-      queryString += `${props.columnThree.toLowerCase()}=${col3Search}`
-    }
-    if(col3Search !== "" && col4Search !== "" || col2Search !== "" && col4Search !== "" || col1Search !== "" && col4Search !== ""){
-      queryString += "&"
-    }
-    if(col4Search !== ""){
-      queryString += `${props.columnFour.toLowerCase()}=${col4Search}`
-    }
-    return queryString
-  }
+    console.log(`${serverURL}/${props.target}/search${props.columnOne.toLowerCase()}/${e.target.value}`)
 
-
-  function searchHandler(e) {
-    console.log(e.target)
-    const queryString = constructQueryString()
-
-    console.log(`${serverURL}/${props.target}${queryString}`)
-    console.log("nameSearch"+col1Search)
-    console.log("posSearch:"+col2Search)
-
-    console.log(queryString)
-
-    //fetch(`${serverURL}/${props.target}/${e}`)
-    fetch(`${serverURL}/${props.target}/search${queryString}`)
+    fetch(`${serverURL}/${props.target}/search${props.columnOne.toLowerCase()}/${e.target.value}`)
     .then(res => res.json())
     .then(data => {
       props.setTableData(data)
+      console.log(data)
     })
   }
 
@@ -66,7 +31,7 @@ export default function TableHeader(props) {
   //   setCol2Search(e)
   //   console.log(col2Search)
 
-  //   fetch(`${serverURL}/${props.target}/${e}`)
+  //   fetch(`${serverURL}/${props.target}/${e.target.value}`)
   //   .then(res => res.json())
   //   .then(data => {
   //     props.setTableData(data)
@@ -86,8 +51,7 @@ export default function TableHeader(props) {
       <th>
         <input type="text" 
                placeholder ={`Search for ${props.target}`}
-               onChange ={(e) =>  setCol1Search(e.target.value)+
-                                  searchHandler(e)}
+               onChange ={(e) => col1SearchHandler(e)}
                value = {col1Search}
                
         />
@@ -96,15 +60,13 @@ export default function TableHeader(props) {
         <input type="text" 
                placeholder ={`Search for ${props.columnTwo}`}
                onChange = { (e) =>  setCol2Search(e.target.value)}
-               onSubmit = { (e) => searchHandler(e)}
                value = {col2Search}
         />
       </th>
       <th>
         <input type="text" 
                placeholder ={`Search for ${props.columnTwo}`}
-               onChange = { (e) => setCol3Search(e.target.value)+
-                                   searchHandler(e.target.value)}
+               onChange = { (e) => setCol3Search(e.target.value)}
                value = {col3Search}
         />
       </th>
