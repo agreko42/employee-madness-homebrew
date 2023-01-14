@@ -53,8 +53,6 @@ export default function TableHeader(props) {
     return queryString
   }
 
-  console.log(queryString)
-
   useEffect(() => {
       fetch(`${serverURL}/${props.target}/search${queryString}`)
       .then(res => res.json())
