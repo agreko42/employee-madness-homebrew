@@ -4,9 +4,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 import Layout from "./Layout"
 import TablePage from './Pages/TablePage';
+import UpdatePage from './Pages/UpdatePage';
 
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import CreatePage from './Pages/CreatePage';
 
 
 
@@ -22,6 +24,22 @@ const router = createBrowserRouter([
       {
         path: "/equipment",
         element: <TablePage target = {"equipment"} />
+      },
+      {
+        path: "/employees/update/:id",
+        element: <UpdatePage target = {"employees"}/>
+      },
+      {
+        path: "/equipment/update/:id",
+        element: <UpdatePage target = {"equipment"}/>
+      },
+      {
+        path: "/employees/create",
+        element: <CreatePage target = {"employees"}/>
+      },
+      {
+        path: "/equipment/create",
+        element: <CreatePage target = {"equipment"}/>
       },
     ],
   }

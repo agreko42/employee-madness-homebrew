@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from "react"
+import { Link } from 'react-router-dom'
 
 import TableHeader from "../Components/TableHeader"
 import TableCard from "../Components/TableCard"
@@ -35,7 +36,9 @@ export default function TablePage( {target} ) {
   else{
       return (
       <table>
-        
+        <Link to = {`/${target}/create`}>
+          <button>{`Create ${target}` }</button>
+        </Link>
         <thead>
           { target === "employees" ? <TableHeader target = {target}
                                                   setIsLoading = {setIsLoading}
@@ -46,27 +49,36 @@ export default function TablePage( {target} ) {
                                                   columnThree = {"Level"}
                                                   columnFour = {"Missing"}/>
           : target === "equipment" ? <TableHeader target = {target}
+                                                  setIsLoading = {setIsLoading}
+                                                  tableData = {tableData}
+                                                  setTableData = {setTableData}
                                                   columnOne = {"Name"}
-                                                  columnTwo = {"Amount"}
-                                                  columnThree = {null}
-                                                  columnFour = {null}/>
+                                                  columnTwo = {"Type"}
+                                                  columnThree = {"Amount"}
+                                                  columnFour = {"Owner"}/>
           : ""
           }
         </thead>
 
         <tbody>
-          {tableData.map( (dataEntry, index) => {
+          {tableData.map( (dataEntry) => {
             return (
-                target === "employees"? <TableCard columnOne = {dataEntry.name}
+                target === "employees"? <TableCard  target= {target}
+                                                    setTableData = {setTableData}
+                                                    columnOne = {dataEntry.name}
                                                     columnTwo = {dataEntry.position}
                                                     columnThree = {dataEntry.level}
                                                     columnFour = {dataEntry.missing}
+                                                    id = {dataEntry._id}
                                                     key = {dataEntry._id}/>
-              : target === "equipment" ? <TableCard columnOne = {dataEntry.name}
-                                                    columnTwo = {dataEntry.position}
-                                                    columnThree = {dataEntry.level}
-                                                    columnFour = {dataEntry.missing}
-                                                    index = {index}/>
+              : target === "equipment" ? <TableCard target= {target}
+                                                    setTableData = {setTableData}
+                                                    columnOne = {dataEntry.name}
+                                                    columnTwo = {dataEntry.type}
+                                                    columnThree = {dataEntry.amount}
+                                                    columnFour = {dataEntry.owner}
+                                                    id = {dataEntry._id}
+                                                    key = {dataEntry._id}/>
               : ""
             )}
         )}  

@@ -85,9 +85,7 @@ export default function TableHeader(props) {
                placeholder ={`Search for ${props.target}`}
                onChange ={(e) =>  setCol1Search(e.target.value)}
                value = {col1Search}
-               
         />
-
       </th>
       <th>
         <input type="text" 

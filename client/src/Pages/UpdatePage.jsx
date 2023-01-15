@@ -1,13 +1,21 @@
-import { React, useState} from 'react'
-import { useNavigate } from 'react-router-dom'
+import {React, useState} from 'react'
+import { useParams } from 'react-router-dom'
+
+
 
 const serverURL = "http://localhost:8080/api"
 
-export default function CreatePage({target}) {
+// function fetchEntry(target, id) {
+//   const entry = fetch(`${serverURL}/${target}/update/${id}`).then( (res) => res.json())
+//   return entry
+//   }
+
+
+export default function UpdatePage({target}) {
+  const { id } = useParams()
   const [updateCol1, setUpdateCol1] = useState("")
   const [updateCol2, setUpdateCol2] = useState("")
   const [updateCol3, setUpdateCol3] = useState("")
-  const navigate = useNavigate();
 
 
 function employeeConstructor(name, position, level){
@@ -39,7 +47,7 @@ function equipmentConstructor(name, type, amount){
 }
 
 
-function creationHandler(col1, col2, col3, target){
+function updateHandler(col1, col2, col3, target, id){
   const bodyObject = (
     target === "employees" ? employeeConstructor(col1, col2, col3) : equipmentConstructor(col1, col2, col3) 
   )
@@ -48,24 +56,22 @@ function creationHandler(col1, col2, col3, target){
   console.log(target)
 
   const requestOptions = {
-    method: 'POST',
+    method: 'PATCH',
     headers: {
       "Content-type": "application/json",
     },
     body: JSON.stringify(bodyObject), 
   }
 
- fetch(`${serverURL}/${target}/create`, requestOptions)
+ fetch(`${serverURL}/${target}/updater/${id}`, requestOptions)
   .then( (res) => res.json())
-  .then( () => {
-    navigate(`/${target}`)
-  })
+  .then( (json) => console.log(json))
 }
 
 
   return (
     <>
-        <div>{`Create ${target}`}</div>
+        <div>Update Entry</div>
         <input placeholder={target === "employees" ? "Employee Name":"Equipment Name"}
                onChange = { (e) => setUpdateCol1(e.target.value)}
                value = {updateCol1}
@@ -78,7 +84,7 @@ function creationHandler(col1, col2, col3, target){
                onChange = { (e) => setUpdateCol3(e.target.value)}
                value = {updateCol3}
         />
-        <button onClick = {(e) => creationHandler(updateCol1, updateCol2, updateCol3, target)}>Save Entry</button>
+        <button onClick = {(e) => updateHandler(updateCol1, updateCol2, updateCol3, target, id)}>Save Changes</button>
     </>
   )
 }
