@@ -1,9 +1,58 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-
-
+import React from 'react'
+import { useState, useEffect } from 'react'
 
 const serverURL = "http://localhost:8080/api"
+
+
+
+const fillDropdown = (data, source) => {
+
+  if(source==="Level"){
+    let differentLevels = {};
+
+    data.forEach( (entry) => {
+      differentLevels[entry.level] = 1;
+    });
+    const content = (Object.getOwnPropertyNames(differentLevels)).map( (level, index) => {
+      return <option key={index}>{level}</option>
+    });
+
+    return content
+  }
+  else if(source==="Position"){
+    let differentPositions = {};
+  
+    data.forEach( (entry) => {
+      differentPositions[entry.position] = 1;
+    });
+    const content = (Object.getOwnPropertyNames(differentPositions)).map( (position, index) => {
+       return <option key={index}>{position}</option>
+    });
+    return content
+  }
+  else if(source==="Type"){
+    let differentTypes= {};
+  
+    data.forEach( (entry) => {
+      differentTypes[entry.type] = 1;
+    });
+    const content = (Object.getOwnPropertyNames(differentTypes)).map( (type, index) => {
+       return <option key={index}>{type}</option>
+    });
+    return content
+  }
+  else if(source==="Amount"){
+    let differentAmounts= {};
+  
+    data.forEach( (entry) => {
+      differentAmounts[entry.amount] = 1;
+    });
+    const content = (Object.getOwnPropertyNames(differentAmounts)).map( (amount, index) => {
+       return <option key={index}>{amount}</option>
+    });
+    return content
+  }
+}
 
 export default function TableHeader(props) {
 
@@ -13,7 +62,10 @@ export default function TableHeader(props) {
   const [col4Search, setCol4Search] = useState("")
   const [sort, setSort] = useState("")
 
-  const queryString = constructQueryString()
+
+
+
+  let queryString = constructQueryString()
 
 
   function constructQueryString(){
@@ -61,6 +113,10 @@ export default function TableHeader(props) {
       })
   }, [queryString])
 
+  useEffect( () => {
+    queryString = ""
+  }, [props.target])
+
 
   return (
    <>
@@ -88,22 +144,26 @@ export default function TableHeader(props) {
         />
       </th>
       <th>
-        <input type="text" 
+        <select type="text" 
                placeholder ={`Search for ${props.columnTwo}`}
                onChange = { (e) =>  setCol2Search(e.target.value)}
-               value = {col2Search}
-        />
-
+               value = {col3Search}>
+          <option disabled value ="">{`Select ${props.columnTwo}`}</option>
+          {fillDropdown(props.tableData, props.columnTwo)}
+        </select>
       </th>
       <th>
-        <input type="text" 
-               placeholder ={`Search for ${props.columnThree}`}
-               onChange = { (e) => setCol3Search(e.target.value)}
-               value = {col3Search}
-        />
+        <select type="text" 
+                placeholder ={`Search for ${props.columnThree}`}
+                onChange = { (e) =>  setCol3Search(e.target.value)}
+                value = {col3Search}>
+          <option disabled value ="">{`Select ${props.columnThree}`}</option>
+          {fillDropdown(props.tableData, props.columnThree)}
+        </select>
 
       </th>
     </tr>
    </>
   )
 }
+ 

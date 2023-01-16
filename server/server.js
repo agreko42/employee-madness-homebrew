@@ -58,7 +58,7 @@ app.get(employeeAPI+"/search", async (req, res) => {
         console.log(sortQuery)
         return sortQuery
     }
-
+ 
 
     function constructFilterObject(){
     const filterObject = {};
@@ -75,16 +75,7 @@ app.get(employeeAPI+"/search", async (req, res) => {
     res.set("Access-Control-Allow-Origin", ["*"])
     res.send(filteredEmployees)
 })
-// app.get(employeeAPI+"/update/:id", async(req, res) => {
-
-//     console.log("WTF")
-//     const EmployeesById = await EmployeeModel.find( { _id: req.params.id})
-
-//     res.set("Access-Control-Allow-Origin", ["*"])
-
-//     res.send(EmployeesById)
-// })
-
+  
 
 app.patch("/api/employees/updater/:id", async (req, res) => {
     console.log("EmployeePatch-endpoint triggers")

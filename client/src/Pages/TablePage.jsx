@@ -25,7 +25,6 @@ export default function TablePage( {target} ) {
     .then(data => {
       setTableData(data)
       setIsLoading(false)
-      console.log(data)
     })
   }, [target]);
 
@@ -41,7 +40,6 @@ export default function TablePage( {target} ) {
         </Link>
         <thead>
           { target === "employees" ? <TableHeader target = {target}
-                                                  setIsLoading = {setIsLoading}
                                                   tableData = {tableData}
                                                   setTableData = {setTableData}
                                                   columnOne = {"Name"}
